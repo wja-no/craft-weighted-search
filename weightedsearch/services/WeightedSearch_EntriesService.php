@@ -73,8 +73,7 @@ class WeightedSearch_EntriesService extends BaseApplicationComponent
                     $overrideWeight =
                             $this->getOverrideWeight($viewableEntry, $needle);
                     $result[$viewableId] = array(
-                        'title' => $viewableEntry->title,
-                        'url' => $viewableEntry->url,
+                        'entry' => $viewableEntry,
                         'excerpt' => '',
                         'score' => ($overrideWeight + $weight),
                     );
