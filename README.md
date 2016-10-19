@@ -20,9 +20,11 @@ The `craft.weightedSearch.substringSearch` function takes a search string as a
 parameter and returns an array of results that is sorted from most relevant to
 least relevant.
 
-Each result has these fields: `url`, `title`, `excerpt` and `score`. The
+Each result has these fields: `entry`, `excerpt` and `score`. The
 excerpt is in HTML format, where each instance of the search string has been
 marked up with the `mark` element.
+
+You can leverage `entry` as you would any other [ElementCriteriaModel](https://craftcms.com/docs/templating/elementcriteriamodel) (eg. `{{searchresult.entry.title}}`).  
 
 Example template code:
 
@@ -33,7 +35,8 @@ Example template code:
      <ul>
          {% for searchResult in results %}
              <li>
-                 <a href="{{ searchResult.url }}">{{ searchResult.title }}</a>
+                 <a href="{{ searchResult.entry.url }}">{{ searchResult.entry.title }}</a>
+                 <img src="{{searchResult.entry.thumbnail.first().url" alt="{{searchResult.entry.thumbnailAltText}}">
                  <p>{{ searchResult.excerpt|raw }}</p>
                  <!-- Score: {{ searchResult.score }} -->
              </li>

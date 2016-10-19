@@ -36,8 +36,8 @@ class WeightedSearch_EntriesService extends BaseApplicationComponent
      * @return array The search results, with the most relevant results first.
      *         Each item in the array is itself an array, with the following
      *         keys:
-     *         'title': (string) Title field of the entry
-     *         'url': (string) URL of the entry
+     *         'entry': (object) Craft ElementCriteriaModel of entry returned 
+     *                    in the search result
      *         'excerpt': (string) Where the needle was found as part of a
      *                    larger string of text (e.g. a rich text field), this
      *                    will show an example of the needle in context,
@@ -73,8 +73,7 @@ class WeightedSearch_EntriesService extends BaseApplicationComponent
                     $overrideWeight =
                             $this->getOverrideWeight($viewableEntry, $needle);
                     $result[$viewableId] = array(
-                        'title' => $viewableEntry->title,
-                        'url' => $viewableEntry->url,
+                        'entry' => $viewableEntry,
                         'excerpt' => '',
                         'score' => ($overrideWeight + $weight),
                     );
