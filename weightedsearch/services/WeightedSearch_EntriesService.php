@@ -114,7 +114,9 @@ class WeightedSearch_EntriesService extends BaseApplicationComponent
         if ($isViewableTitle && $normalizedNeedle === trim($keywords)) {
             $weight = self::WEIGHT_FOR_FULL_TITLE_MATCH;
         } else {
-            $weight = substr_count($keywords, $normalizedNeedle);
+            if (strlen($normalizedNeedle) > 0) {
+                $weight = substr_count($keywords, $normalizedNeedle);
+            }
             if ($isViewableTitle) {
                 $weight *= self::WEIGHT_FOR_PARTIAL_TITLE_MATCH;
             }
