@@ -25,7 +25,7 @@ class WeightedSearchVariable
      *     <ul>
      *         {% for searchResult in results %}
      *             <li>
-     *                 <a href="{{ searchResult.url }}">{{ searchResult.title }}</a>
+     *                 <a href="{{ searchResult.entry.url }}">{{ searchResult.entry.title }}</a>
      *                 <p>{{ searchResult.excerpt|raw }}</p>
      *                 <!-- Score: {{ searchResult.score }} -->
      *             </li>
