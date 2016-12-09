@@ -16,9 +16,13 @@ custom search function that can be used e.g. to build a search form.
 
 ## Usage
 
-The `craft.weightedSearch.substringSearch` function takes a search string as a
-parameter and returns an array of results that is sorted from most relevant to
-least relevant.
+The `craft.weightedSearch.substringSearch` function takes a search string as
+its first argument and returns an array of results that is sorted from most
+relevant to least relevant.
+
+It is also possible to provide a second argument containing an array of section
+handles; the search will then be restricted to those sections. If this array is
+empty or the argument is omitted, all sections are searched.
 
 Each result has these fields: `entry`, `excerpt` and `score`. The
 excerpt is in HTML format, where each instance of the search string has been
@@ -30,7 +34,7 @@ Example template code:
 
 ```
  {% set query = craft.request.getParam('q') %}
- {% set results = craft.weightedSearch.substringSearch(query) %}
+ {% set results = craft.weightedSearch.substringSearch(query, ['articles', 'news']) %}
  {% if results %}
      <ul>
          {% for searchResult in results %}

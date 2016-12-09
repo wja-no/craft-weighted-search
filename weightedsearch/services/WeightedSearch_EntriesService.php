@@ -33,6 +33,8 @@ class WeightedSearch_EntriesService extends BaseApplicationComponent
      *
      * @param string $needle Substring to search for.
      * @param string $locale Locale to search in, e.g. craft()->language
+     * @param array $sections The handles of the sections to search in. If the
+     *        array is empty, the search will instead cover all sections.
      * @return array The search results, with the most relevant results first.
      *         Each item in the array is itself an array, with the following
      *         keys:
@@ -52,11 +54,18 @@ class WeightedSearch_EntriesService extends BaseApplicationComponent
      *         'score': (int) The entry's relevance to the search query,
      *                  presented as a positive integer. Higher is better.
      */
-    public function substringSearch($needle, $locale)
+    public function substringSearch($needle, $locale, $sections = array())
     {
+        $sectionIds = array();
+        foreach($sections as $section) {
+	        $id = craft()->sections->getSectionByHandle($section)->id;
+	        if (isset($id) && $id <> '' && $id != NULL) {
+	            $sectionIds[] = $id;
+            }
+        }
         $result = array();
         $normalizedNeedle = StringHelper::normalizeKeywords($needle);
-        $query = $this->getSearchIndexHits($normalizedNeedle, $locale);
+        $query = $this->getSearchIndexHits($normalizedNeedle, $locale, $sectionIds);
         foreach ($query->queryAll() as $row) {
             $originalId = $row['elementId'];
             $entry = craft()->entries->getEntryById($originalId, $locale);
@@ -91,7 +100,7 @@ class WeightedSearch_EntriesService extends BaseApplicationComponent
         return $result;
     }
 
-    private function getSearchIndexHits($normalizedNeedle, $locale)
+    private function getSearchIndexHits($normalizedNeedle, $locale, $sectionIds)
     {
         $escapedNeedle = strtr($normalizedNeedle,
                 array('%' => '\%', '_' => '\_'));
@@ -105,6 +114,10 @@ class WeightedSearch_EntriesService extends BaseApplicationComponent
                     'keywords',
                     '%' . $escapedNeedle . '%',
                 ));
+        if (is_array($sectionIds) && !empty($sectionIds)) {
+	        $query->join('entries', 'elementId=id')
+                    ->andwhere(array('in', 'sectionId', $sectionIds));
+        }
         return $query;
     }
 

@@ -19,8 +19,10 @@ class WeightedSearchVariable
      * search terms to a 'prioritizedSearchTerms' Tag field on the entry.
      *
      * Example usage in template:
+     *
      * {% set query = craft.request.getParam('q') %}
-     * {% set results = craft.weightedSearch.substringSearch(query) %}
+     * {% set sections = ['articles', 'products'] %}
+     * {% set results = craft.weightedSearch.substringSearch(query, sections) %}
      * {% if results %}
      *     <ul>
      *         {% for searchResult in results %}
@@ -34,11 +36,14 @@ class WeightedSearchVariable
      * {% else %}
      *     <p>{{ "No results"|t }}</p>
      * {% endif %}
+     *
+     * The 'sections' argument (an array of handles to sections that are to be
+     * searched) can be omitted; in this case, all sections will be searched.
      */
-    public function substringSearch($needle)
+    public function substringSearch($needle, $sections = array())
     {
         $locale = craft()->language;
         return craft()->weightedSearch_entries->substringSearch($needle,
-                $locale);
+                $locale, $sections);
     }
 }
