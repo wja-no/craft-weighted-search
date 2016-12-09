@@ -10,7 +10,7 @@ class WeightedSearchPlugin extends BasePlugin
 
     function getVersion()
     {
-        return '2.0';
+        return '2.1';
     }
 
     function getDeveloper()
