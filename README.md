@@ -40,7 +40,7 @@ Example template code:
          {% for searchResult in results %}
              <li>
                  <a href="{{ searchResult.entry.url }}">{{ searchResult.entry.title }}</a>
-                 <img src="{{searchResult.entry.thumbnail.first().url" alt="{{searchResult.entry.thumbnailAltText}}">
+                 <img src="{{searchResult.entry.thumbnail.first().url}}" alt="{{searchResult.entry.thumbnailAltText}}">
                  <p>{{ searchResult.excerpt|raw }}</p>
                  <!-- Score: {{ searchResult.score }} -->
              </li>
